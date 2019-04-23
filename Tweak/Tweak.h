@@ -40,6 +40,18 @@
 
 @end
 
+@interface SBReachabilitySettings : NSObject
+
+@property (assign,nonatomic) double yOffsetFactor;
+
+@end
+
+@interface SBFluidSwitcherGestureManager : NSObject
+
+@property(retain, nonatomic) SBReachabilitySettings *reachabilitySettings;
+
+@end
+
 @interface SBReachabilityManager : NSObject
 
 + (id)sharedInstance;

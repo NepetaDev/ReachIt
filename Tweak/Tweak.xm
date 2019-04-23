@@ -100,9 +100,14 @@ NSInteger style;
 
 -(void)handleReachabilityModeActivated {
     %orig;
+    self.testMCPVC.view.hidden = !enabled;
     if (!enabled) return;
 
-    self.testMCPVC.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height/2);
+    double factor = 0.5;
+    SBFluidSwitcherGestureManager *manager = [self valueForKey:@"_gestureManager"];
+    if (manager && [manager reachabilitySettings]) factor = [manager reachabilitySettings].yOffsetFactor;
+
+    self.testMCPVC.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height * factor);
 
     [self.testMCPVC setStyle:style];
     
@@ -115,7 +120,6 @@ NSInteger style;
     %orig;
     if (!enabled) return;
 
-    self.testMCPVC.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height/2);
     [UIView animateWithDuration:0.2 animations:^() {
         self.testMCPVC.view.alpha = 0.0;
     }];
