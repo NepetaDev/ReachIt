@@ -24,15 +24,15 @@
 
 @interface SBFluidSwitcherViewController : UIViewController
 
-@property (nonatomic, retain) MediaControlsPanelViewController *testMCPVC;
+@property (nonatomic, retain) MediaControlsPanelViewController *ritMCPVC;
 @property (nonatomic, retain) UIScrollView *scrollView;
 
 @end
 
 @interface SBReachabilityWindow : UIWindow
 
-@property (nonatomic, retain) MediaControlsPanelViewController *testMCPVC;
-@property (nonatomic, retain) UIView *lastSeen;
+@property (nonatomic, retain) MediaControlsPanelViewController *ritMCPVC;
+@property (nonatomic, retain) UIView *ritLastSeen;
 
 @end
 

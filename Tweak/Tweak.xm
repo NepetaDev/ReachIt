@@ -38,27 +38,27 @@ NSInteger style;
 
 %hook SBReachabilityWindow
 
-%property (nonatomic, retain) MediaControlsPanelViewController *testMCPVC;
-%property (nonatomic, retain) UIView *lastSeen;
+%property (nonatomic, retain) MediaControlsPanelViewController *ritMCPVC;
+%property (nonatomic, retain) UIView *ritLastSeen;
 
 -(void)layoutSubviews {
     %orig;
-    if (!self.testMCPVC) {
+    if (!self.ritMCPVC) {
         UIView *view = self;
         view.userInteractionEnabled = YES;
         view.layer.masksToBounds = NO;
         view.clipsToBounds = NO;
-        self.testMCPVC = [%c(MediaControlsPanelViewController) panelViewControllerForCoverSheet];
-        [self.testMCPVC setStyle:style];
+        self.ritMCPVC = [%c(MediaControlsPanelViewController) panelViewControllerForCoverSheet];
+        [self.ritMCPVC setStyle:style];
         CGFloat height = [[%c(SBReachabilityManager) sharedInstance] effectiveReachabilityYOffset];
-        self.testMCPVC.view.frame = CGRectMake(view.frame.origin.x, -height, view.frame.size.width, height);
-        [view addSubview:self.testMCPVC.view];
-        [view bringSubviewToFront:self.testMCPVC.view];
+        self.ritMCPVC.view.frame = CGRectMake(view.frame.origin.x, -height, view.frame.size.width, height);
+        [view addSubview:self.ritMCPVC.view];
+        [view bringSubviewToFront:self.ritMCPVC.view];
     }
 
-    self.testMCPVC.view.hidden = !enabled;
+    self.ritMCPVC.view.hidden = !enabled;
 
-    if (self.testMCPVC.style != style) [self.testMCPVC setStyle:style];
+    if (self.ritMCPVC.style != style) [self.ritMCPVC setStyle:style];
 }
 
 -(id)hitTest:(CGPoint)arg1 withEvent:(id)arg2 {
@@ -66,13 +66,13 @@ NSInteger style;
     UIView *candidate = %orig;
     
     if (arg1.y <= 0) {
-        candidate = [self.testMCPVC.view hitTest:[self.testMCPVC.view convertPoint:arg1 fromView:self] withEvent:arg2];
+        candidate = [self.ritMCPVC.view hitTest:[self.ritMCPVC.view convertPoint:arg1 fromView:self] withEvent:arg2];
 
-        if (!candidate || candidate.superview == self.testMCPVC.view) {
-            candidate = self.lastSeen;
-            self.lastSeen = nil;
+        if (!candidate || candidate.superview == self.ritMCPVC.view) {
+            candidate = self.ritLastSeen;
+            self.ritLastSeen = nil;
         } else {
-            self.lastSeen = candidate;
+            self.ritLastSeen = candidate;
         }
     }
 
@@ -83,36 +83,36 @@ NSInteger style;
 
 %hook SBFluidSwitcherViewController
 
-%property (nonatomic, retain) MediaControlsPanelViewController *testMCPVC;
+%property (nonatomic, retain) MediaControlsPanelViewController *ritMCPVC;
 
 -(void)viewWillAppear:(BOOL)arg1 {
     %orig;
-    if (!self.testMCPVC) {
-        self.testMCPVC = [%c(MediaControlsPanelViewController) panelViewControllerForCoverSheet];
-        self.testMCPVC.view.alpha = 0.0;
-        [self.view addSubview:self.testMCPVC.view];
+    if (!self.ritMCPVC) {
+        self.ritMCPVC = [%c(MediaControlsPanelViewController) panelViewControllerForCoverSheet];
+        self.ritMCPVC.view.alpha = 0.0;
+        [self.view addSubview:self.ritMCPVC.view];
     }
 
-    self.testMCPVC.view.hidden = !enabled;
+    self.ritMCPVC.view.hidden = !enabled;
     
-    if (self.testMCPVC.style != style) [self.testMCPVC setStyle:style];
+    if (self.ritMCPVC.style != style) [self.ritMCPVC setStyle:style];
 }
 
 -(void)handleReachabilityModeActivated {
     %orig;
-    self.testMCPVC.view.hidden = !enabled;
+    self.ritMCPVC.view.hidden = !enabled;
     if (!enabled) return;
 
     double factor = 0.5;
     SBFluidSwitcherGestureManager *manager = [self valueForKey:@"_gestureManager"];
     if (manager && [manager reachabilitySettings]) factor = [manager reachabilitySettings].yOffsetFactor;
 
-    self.testMCPVC.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height * factor);
+    self.ritMCPVC.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height * factor);
 
-    [self.testMCPVC setStyle:style];
+    [self.ritMCPVC setStyle:style];
     
     [UIView animateWithDuration:0.2 animations:^() {
-        self.testMCPVC.view.alpha = 1.0;
+        self.ritMCPVC.view.alpha = 1.0;
     }];
 }
 
@@ -121,7 +121,7 @@ NSInteger style;
     if (!enabled) return;
 
     [UIView animateWithDuration:0.2 animations:^() {
-        self.testMCPVC.view.alpha = 0.0;
+        self.ritMCPVC.view.alpha = 0.0;
     }];
 }
 
