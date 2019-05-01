@@ -73,7 +73,7 @@ NSInteger style;
     if (arg1.y <= 0) {
         candidate = [self.ritMCPVC.view hitTest:[self.ritMCPVC.view convertPoint:arg1 fromView:self] withEvent:arg2];
 
-        if (!candidate || candidate.superview == self.ritMCPVC.view) {
+        if (self.ritLastSeen) {
             candidate = self.ritLastSeen;
             self.ritLastSeen = nil;
         } else {
