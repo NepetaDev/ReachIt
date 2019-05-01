@@ -24,7 +24,7 @@ NSInteger style;
 }
 
 - (_Bool)gestureRecognizerShouldBegin:(id)arg1 {
-    if (enabled && (![arg1 isKindOfClass:%c(SBScreenEdgePanGestureRecognizer)] || ![arg1 isKindOfClass:%c(SBReachabilityGestureRecognizer)])) return false;
+    if (enabled && (![arg1 isKindOfClass:%c(SBScreenEdgePanGestureRecognizer)] && ![arg1 isKindOfClass:%c(SBReachabilityGestureRecognizer)])) return false;
     return %orig;
 }
 
