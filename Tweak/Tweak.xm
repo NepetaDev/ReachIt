@@ -19,8 +19,13 @@ NSInteger style;
 %hook SBReachabilityManager
 
 - (void)_panToDeactivateReachability:(id)arg1 { 
-    if (![arg1 isKindOfClass:%c(SBScreenEdgePanGestureRecognizer)]) return;
+    if (enabled && ![arg1 isKindOfClass:%c(SBScreenEdgePanGestureRecognizer)]) return;
     %orig;
+}
+
+- (_Bool)gestureRecognizerShouldBegin:(id)arg1 {
+    if (enabled && ![arg1 isKindOfClass:%c(SBScreenEdgePanGestureRecognizer)]) return false;
+    return %orig;
 }
 
 - (void)_tapToDeactivateReachability:(id)arg1 { }
