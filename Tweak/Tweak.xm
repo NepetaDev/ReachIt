@@ -35,8 +35,8 @@ NSInteger style;
 %hook MPVolumeSlider
 
 - (bool)isOnScreenForVolumeDisplay {
-    if (!enabled) return %orig;
-    return false;
+    if (enabled && ![[%c(SBReachabilityManager) sharedInstance] reachabilityModeActive]) return false;
+    return %orig;
 }
 
 %end
